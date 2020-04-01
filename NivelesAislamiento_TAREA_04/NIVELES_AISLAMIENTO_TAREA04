@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{afterpage}
+
+\title{NIVELES DE AISLAMIENTO}
+
+\author{Alumno: Cruz Galván Alberto Israel}
+\date{31/03/2020}
+\maketitle
+
+\begin{document}
+\section{Transacciones}
+\\
+
+Para entender el concepto de nivel del concepto de los niveles de aislamiento en las bases de datos, es necesario dejar en claro el concepto de \textbf{transacción}.\\ \\
+
+Una \textbf{transacción} es una unidad o secuencia de trabajo que se realizan de forma ordenada y separada dentro de una base de datos. La forma común en la que éstas son utilizadas, es para realizar algún cambio dentro de la base de datos y, sus objetivos principales son los siguientes: \\ \\
+\textbf{1. }Utilizarlas para tener una fácil recuperación ante errores y de esta forma, mantener una consistencia en la base de datos aunque existan fallas en el sistema. \\ \\
+\textbf{2. }Brindar aislamiento entre los programas y que accedan simultáneamente a la base de datos. \\\\
+De esta forma, una transacción implica uno o más cambios en la base de datos, ya sea al momento de crear, modificar o eliminar un registro. Usualmente una transacción consta de una agrupación de consultas SQL y su ejecución individual, conforman parte de la transacción. Los comandos de control dentro de las transacciones pueden ser los siguientes: \textbf{INSERT, DELETE y UPDATE}.\\\\
+\textbf{Control de transacciones}\\
+Los comandos básicos para el control de transacciones son los siguientes: \\\\
+\textbf{-COMMIT: } Como confirmación de transacción.\\ \\
+\textbf{-ROLLBACK: } Para deshacer los cambios y regresar a un checkpoint.\\ \\
+\textbf{-SAVEPOINT: } Crea checkpoints en puntos concretos en la transacción donde se puede deshacer la transacción en dichos puntos.\\ \newpage
+%----------------------------------------------------------------------------------
+A continuación se implementará un ejemplo de una transacción en el manejador postgreSQL. 
+\begin{verbatim}
+BEGIN;
+    INSERT INTO table1 VALUES(1);
+    SAVEPOINT my_savepoint;
+    INSERT INTO table1 VALUES(2);
+    ROLLBACK TO SAVEPOINT my_savepoint;
+    INSERT INTO table1 VALUES(1);
+COMMITT;
+\end{verbatim}
+\section{Niveles de aislamiento}\\
+\\
+El nivel de aislamiento especifica cómo se gestionan las transacciones que modifican las bases de datos. Es una propiedad que define cómo y cuándo los cambios producidos por una operación se hacen visibles para las demás operaciones concurrentes.\\\\
+Los niveles de aislamiento se describen en función de los efectos secundarios de simultaneidad que se permiten. Algunos de los aspectos que controlan los niveles de aislamiento son:\\ \\
+-Controlan si se realizan bloqueos cuando se leen los datos y qué tipos de bloqueos se solicitan. \\\\
+-Controlan si se realizan bloqueos cuando se leen los datos y qué tipos de bloqueos se solicitan.\\\\
+-Si una operación de lectura que hace referencia a las filas modificadas por otra transacción. Se bloquea hasta que se libera el bloqueo exclusivo de la fila.\\\\
+-Recupera  la versión confirmada de la fila que existía en el momento en el que se inició la instrucción o la transacción.\\\\\\\\
+\textbf{Consultado el día 31/03/2020 desde las direcciones: }\\\\
+\textbf{1. https://docs.microsoft.com/es-es/sql/connect/jdbc/understanding-isolation-levels?view=sql-server-ver15 }\\\\
+\textbf{2. https://diego.com.es/transacciones-en-sql}
+
+
+
+
+
+\end{document}
